@@ -2,24 +2,39 @@
 set -e
 
 
-#paru -S tlpui
+DISK="/dev/nvme0n1"
 
-paru -S ttf-ms-fonts
-
-sudo pacman -S rustup
-rustup install stable
-
-git clone https://aur.archlinux.org/paru-bin
-cd paru-bin/
-makepkg --install --syncdeps
-cd ../
-rm --force --recursive paru-bin
-
-sudo pacman -S telegram-desktop keepassxc qbittorrent chromium libreoffice firefox
-sudo pacman -S gnome gnome-tweaks
-paru -S picom-git trilium-bin
-pacman -S qutebrowser
-paru -S ascii-image-converter cpufetch jitsi-meet-desktop stacer moc
+EFI_PART="${DISK}p1"
+MAIN_PART="${DISK}p2"
 
 
-sudo systemctl enable gdm
+setfont ter-132n
+timedatectl set-ntp true
+
+
+cfdisk --zero "${DISK}"
+
+mkfs.fat -F32 "${EFI_PART}"
+mkfs.btrfs --force --verbose "${MAIN_PART}"
+
+
+mount "${CRYPT_DEV}" /mnt
+btrfs subvolume create /mnt/@
+btrfs subvolume create /mnt/@home
+btrfs subvolume create /mnt/@var
+btrfs subvolume create /mnt/@snapshots
+
+umount /mnt
+mount --options noatime,ssd,compress=zstd:2,discard=async,space_cache=v2,subvol=@ "${MAIN_PART}" /mnt
+
+mkdir --parents /mnt/{boot/efi,home,var,.snapshots}
+
+mount --options noatime,ssd,compress=zstd:2,discard=async,space_cache=v2,subvol=@home "${MAIN_PART}" /mnt/home
+mount --options noatime,ssd,compress=zstd:2,discard=async,space_cache=v2,subvol=@var "${MAIN_PART}" /mnt/var
+mount --options noatime,ssd,compress=zstd:2,discard=async,space_cache=v2,subvol=@snapshots "${MAIN_PART}" /mnt/.snapshots
+
+mount "${EFI_PART}" /mnt/boot/efi
+
+
+pacstrap -i /mnt base nano
+genfstab -U /mnt >> /mnt/etc/fstab
