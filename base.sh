@@ -1,55 +1,71 @@
- GNU nano 6.3                                                       base.sh                                                                  
-#!/bin/bash
+#!/bin/sh
 set -e
 
 
-USERNAME="jowie"
-HOSTNAME="cloudship"
-TIMEZONE="Asia/Yekaterinburg"
+CRYPTROOT_FILE="/root/crypt-root.keyfile"
+CRYPTSWAP_FILE="/root/crypt-swap.keyfile"
+
+
+USERNAME="jow1e"
+HOSTNAME="thinkpad"
+TIMEZONE="Europe/Moscow"
+
 
 ln --symbolic --force "/usr/share/zoneinfo/${TIMEZONE}" /etc/localtime
-hwclock --systohc --localtime
+hwclock --systohc --utc
+
 
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
-
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
-echo "FONT=ter-132n" >> /etc/vconsole.conf
+
 
 echo "${HOSTNAME}" >> /etc/hostname
 echo "127.0.0.1 localhost" >> /etc/hosts
 echo "::1       localhost" >> /etc/hosts
 echo "127.0.1.1 ${HOSTNAME}.localdomain ${HOSTNAME}" >> /etc/hosts
 
-pacman -S linux linux-headers linux-firmware base-devel btrfs-progs
-pacman -S openssh git neovim man-db man-pages bat wget ranger ncdu tlp ffmpeg gimp graphicsmagick lsd btop trash-cli mpv speedtest-cli bash-c>
-pacman -S networkmanager wireless_tools dialog reflector bluez bluez-utils cups
-pacman -S pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
-pacman -S grub efibootmgr dosfstools mtools os-prober
-pacman -S intel-ucode mesa vulkan-radeon libva-mesa-driver mesa-vdpau xf86-video-amdgpu
-pacman -S terminus-font ttf-dejavu
+
+pacman --sync linux linux-firmware linux-headers base-devel
+pacman --sync iwd bluez bluez-utils wget reflector
+pacman --sync openssh git neovim
+pacman --sync intel-ucode xf86-video-intel mesa vulkan-intel intel-media-driver libva-intel-driver
+pacman --sync grub efibootmgr
 
 
-# pacman -S hplip
+systemctl enable iwd
+systemctl enable bluetooth
 
-# add (btrfs amdgpu) to modules
-# remove (fsck) from hooks
+
+dd bs=512 count=4 if=/dev/random of="${CRYPTROOT_FILE}" iflag=fullblock
+chmod 600 "${CRYPTROOT_FILE}"
+cryptsetup luksAddKey /dev/nvme0n1p3 "${CRYPTROOT_FILE}"
+
+dd bs=512 count=4 if=/dev/random of="${CRYPTSWAP_FILE}" iflag=fullblock
+chmod 600 "${CRYPTSWAP_FILE}"
+cryptsetup luksAddKey /dev/nvme0n1p2 "${CRYPTSWAP_FILE}"
+
+
+# FILES=(/root/crypt-root.keyfile /root/crypt-swap.keyfile)
+# HOOKS=(... block encrypt openswap resume filesystems ...)
+#
+# /etc/initcpio/hooks/openswap
+# /etc/initcpio/install/openswap
 nvim /etc/mkinitcpio.conf
 mkinitcpio --preset linux
 
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub_uefi --recheck
+
+
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=core --recheck
 grub-mkconfig --output=/boot/grub/grub.cfg
 
-systemctl enable NetworkManager
-systemctl enable cups
-systemctl enable bluetooth
-systemctl enable tlp.service
 
-useradd --create-home --groups users,wheel "${USERNAME}"
+useradd --create-home --groups users,wheel,audio,video,power,network,log,storage,uucp "${USERNAME}"
+
 
 passwd
 passwd "${USERNAME}"
 
-# allow wheel group to execute root commands
-EDITOR=nano visudo
+
+echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers
