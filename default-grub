@@ -1,0 +1,3 @@
+GRUB_ENABLE_CRYPTODISK=y
+GRUB_CMDLINE_LINUX_DEFAULT="resume=/dev/mapper/crypt-swap cryptdevice=/dev/nvme0n1p3:crypt-root root=/dev/mapper/crypt-root cryptkey=rootfs:/root/crypt-root.keyfile quiet"
+GRUB_DISABLE_OS_PROBER=false

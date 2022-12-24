@@ -1,0 +1,10 @@
+run_hook()
+{
+	x=0
+	while [ ! -b /dev/mapper/crypt-root ] && [ $x -le 10 ]; do
+		x = $((x+1))
+		sleep .2
+	done
+
+	cryptsetup open --key-file /root/crypt-swap.keyfile /dev/nvme0n1p2 crypt-swap
+}

@@ -1,0 +1,10 @@
+build()
+{
+	add_runscript
+}
+help()
+{
+cat<<HELPEOF
+	This opens the swap encrypted partition /dev/nvme0n1p2 in /dev/mapper/crypt-swap
+HELPEOF
+}
