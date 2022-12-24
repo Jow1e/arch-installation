@@ -19,6 +19,7 @@ sudo pacman --sync vimb weechat keepassxc qbittorrent moc zathura feh dunst wire
 
 
 sudo systemctl enable --now tlp
+sudo systemctl enable ly
 
 
 sudo pacman --sync rustup
