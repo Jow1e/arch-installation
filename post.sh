@@ -38,3 +38,18 @@ pacman --sync gstreamer gst-libav gst-plugins-base
 
 paru --sync --refresh
 paru --sync trilium-bin freetube-bin tor-browser ani-cli
+
+
+# /etc/systemd/sleep.conf
+
+#AllowSuspend=yes
+#AllowHibernation=yes
+#AllowSuspendThenHibernate=yes
+#AllowHybridSleep=yes
+#SuspendMode=
+#SuspendState=mem standby freeze
+#HibernateMode=platform shutdown
+#HibernateState=disk
+#HybridSleepMode=suspend platform shutdown
+#HybridSleepState=disk
+#HibernateDelaySec=120min
