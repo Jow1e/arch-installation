@@ -4,7 +4,7 @@ set -e
 
 # checkout patches
 sudo pacman --sync libx11 xorg-server libxrandr xorg-xrandr xorg-xinit libxft xorg-xrdb xorg-xclip unclutter
-sudo pacman --sync dwm-git dmenu-git st-git tabbed-git ly-git slock-git
+sudo pacman --sync dwm-git dmenu-git st-git tabbed-git ly-git slock-git zsh
 
 # dunst
 # ani-cli
