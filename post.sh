@@ -1,13 +1,28 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 
-#paru -S tlpui
+# checkout patches
+sudo pacman --sync xorg-server xorg-xinit dwm-git dmenu-git st-git tabbed-git ly-git slock-git
 
-paru -S ttf-ms-fonts
+# dunst
+# ani-cli
+# wireshark
+# some directory stuff
 
-sudo pacman -S rustup
+# checkout how to configure it
+sudo pacman --sync pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+sudo pacman --sync ranger mpv bat tlp htop clang gcc gdb python3 python-poetry
+sudo pacman --sync vimb weechat keepassxc qbittorrent moc zathura feh
+
+
+
+sudo systemctl enable --now tlp
+
+
+sudo pacman --sync rustup
 rustup install stable
+
 
 git clone https://aur.archlinux.org/paru-bin
 cd paru-bin/
@@ -15,11 +30,9 @@ makepkg --install --syncdeps
 cd ../
 rm --force --recursive paru-bin
 
-sudo pacman -S telegram-desktop keepassxc qbittorrent chromium libreoffice firefox
-sudo pacman -S gnome gnome-tweaks
-paru -S picom-git trilium-bin
-pacman -S qutebrowser
-paru -S ascii-image-converter cpufetch jitsi-meet-desktop stacer moc
+
+pacman --sync gstreamer gst-libav gst-plugins-base gst-plugin-pipewire
 
 
-sudo systemctl enable gdm
+paru --sync --refresh
+paru --sync trilium-bin freetube-bin tor-browser
