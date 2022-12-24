@@ -28,14 +28,13 @@ echo "127.0.1.1 ${HOSTNAME}.localdomain ${HOSTNAME}" >> /etc/hosts
 
 
 pacman --sync linux linux-firmware linux-headers base-devel
-pacman --sync iwd bluez bluez-utils wget reflector
+pacman --sync iwd wget reflector
 pacman --sync openssh git neovim
 pacman --sync intel-ucode xf86-video-intel mesa vulkan-intel intel-media-driver libva-intel-driver
 pacman --sync grub efibootmgr
 
 
 systemctl enable iwd
-systemctl enable bluetooth
 
 
 dd bs=512 count=4 if=/dev/random of="${CRYPTROOT_FILE}" iflag=fullblock
