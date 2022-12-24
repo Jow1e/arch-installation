@@ -3,7 +3,8 @@ set -e
 
 
 # checkout patches
-sudo pacman --sync xorg-server xorg-xinit dwm-git dmenu-git st-git tabbed-git ly-git slock-git
+sudo pacman --sync libx11 xorg-server libxrandr xorg-xrandr xorg-xinit libxft xorg-xrdb xorg-xclip unclutter
+sudo pacman --sync dwm-git dmenu-git st-git tabbed-git ly-git slock-git
 
 # dunst
 # ani-cli
@@ -11,9 +12,9 @@ sudo pacman --sync xorg-server xorg-xinit dwm-git dmenu-git st-git tabbed-git ly
 # some directory stuff
 
 # checkout how to configure it
-sudo pacman --sync pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+sudo pacman --sync alsa-utils alsa-plugins
 sudo pacman --sync ranger mpv bat tlp htop clang gcc gdb python3 python-poetry
-sudo pacman --sync vimb weechat keepassxc qbittorrent moc zathura feh
+sudo pacman --sync vimb weechat keepassxc qbittorrent moc zathura feh dunst wireshark-qt
 
 
 
@@ -31,8 +32,8 @@ cd ../
 rm --force --recursive paru-bin
 
 
-pacman --sync gstreamer gst-libav gst-plugins-base gst-plugin-pipewire
+pacman --sync gstreamer gst-libav gst-plugins-base
 
 
 paru --sync --refresh
-paru --sync trilium-bin freetube-bin tor-browser
+paru --sync trilium-bin freetube-bin tor-browser ani-cli
