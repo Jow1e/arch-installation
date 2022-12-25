@@ -35,3 +35,5 @@ paru --sync dwm-git dmenu-git st-git tabbed-git ly-git slock-git
 
 sudo systemctl enable tlp
 sudo systemctl enable ly
+
+sudo btrfs subvolume snapshot / /.snapshots/base
