@@ -29,7 +29,7 @@ echo "127.0.1.1 ${HOSTNAME}.localdomain ${HOSTNAME}" >> /etc/hosts
 
 pacman --sync linux linux-firmware linux-headers base-devel
 pacman --sync iwd wget reflector bluez bluez-utils
-pacman --sync openssh git neovim
+pacman --sync openssh git neovim tree
 pacman --sync intel-ucode xf86-video-intel mesa vulkan-intel intel-media-driver
 pacman --sync grub efibootmgr
 
