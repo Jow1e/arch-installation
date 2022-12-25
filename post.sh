@@ -5,11 +5,12 @@ set -e
 # /etc/iwd/main.conf
 sudo systemctl enable --now systemd-resolved 
 sudo ln -srf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+sudo systemctl restart iwd
 
 
 # checkout patches
 # /etc/X11/xorg.conf.d/20-intel.conf
-sudo pacman --sync libx11 xorg-server libxrandr xorg-xrandr xorg-xinit libxft xorg-xrdb xorg-xclip
+sudo pacman --sync libx11 xorg-server libxrandr xorg-xrandr xorg-xinit libxft xorg-xrdb xorg-xclipboard
 
 
 # checkout how to configure it
