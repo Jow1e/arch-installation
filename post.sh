@@ -2,24 +2,18 @@
 set -e
 
 
+sudo systemctl enable --now systemd-resolved 
+sudo ln -srf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
+
 # checkout patches
 sudo pacman --sync libx11 xorg-server libxrandr xorg-xrandr xorg-xinit libxft xorg-xrdb xorg-xclip unclutter
-sudo pacman --sync dwm-git dmenu-git st-git tabbed-git ly-git slock-git zsh
 
-# dunst
-# ani-cli
-# wireshark
-# some directory stuff
 
 # checkout how to configure it
-sudo pacman --sync alsa-utils alsa-plugins
-sudo pacman --sync ranger mpv bat tlp htop clang gcc gdb python3 python-poetry
-sudo pacman --sync vimb weechat keepassxc qbittorrent moc zathura feh dunst wireshark-qt
-
-
-
-sudo systemctl enable --now tlp
-sudo systemctl enable ly
+sudo pacman --sync pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
+sudo pacman --sync ranger bat tlp htop clang gcc gdb python3 python-poetry zsh
+sudo pacman --sync weechat keepassxc qbittorrent moc zathura feh dunst wireshark-qt nyxt mpv
 
 
 sudo pacman --sync rustup
@@ -33,23 +27,11 @@ cd ../
 rm --force --recursive paru-bin
 
 
-pacman --sync gstreamer gst-libav gst-plugins-base
+sudo pacman --sync gstreamer gst-libav gst-plugins-base gst-plugin-pipewire gst-plugins-good
 
 
-paru --sync --refresh
-paru --sync trilium-bin freetube-bin tor-browser ani-cli
+paru --sync trilium-bin freetube-bin ani-cli librewolf-bin
+paru --sync dwm-git dmenu-git st-git tabbed-git ly-git slock-git
 
-
-# /etc/systemd/sleep.conf
-
-#AllowSuspend=yes
-#AllowHibernation=yes
-#AllowSuspendThenHibernate=yes
-#AllowHybridSleep=yes
-#SuspendMode=
-#SuspendState=mem standby freeze
-#HibernateMode=platform shutdown
-#HibernateState=disk
-#HybridSleepMode=suspend platform shutdown
-#HybridSleepState=disk
-#HibernateDelaySec=120min
+sudo systemctl enable tlp
+sudo systemctl enable ly

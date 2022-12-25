@@ -14,7 +14,7 @@ timedatectl set-ntp true
 loadkeys us
 ls /sys/firmware/efi/efivars
 
-ping archlinux.org
+ping archlinux.org -c 5
 
 
 
@@ -51,7 +51,7 @@ BTRFS_OPTS="noatime,ssd,compress=zstd:1,discard=async,space_cache=v2"
 
 # to erase data from disk
 # need `nvme-cli` package
-nvme format "${DISK}" -s 2
+# nvme format "${DISK}" -s 2
 cfdisk --zero "${DEVICE}"
 
 cryptsetup luksFormat --type luks1 "${DEV_ROOT}"
@@ -87,7 +87,9 @@ btrfs subvolume create "${ROOT_DIR}/@snapshots"
 umount "${ROOT_DIR}"
 mount --options "${BTRFS_OPTS},subvol=@" "/dev/mapper/${CRYPT_ROOT}" "${ROOT_DIR}"
 
-mkdir --parents "${ROOT_DIR}/{boot/efi,home,.snapshots}"
+mkdir --parents "${ROOT_DIR}/boot/efi"
+mkdir --parents "${ROOT_DIR}/home"
+mkdir --parents "${ROOT_DIR}/.snapshots"
 
 mount --options "${BTRFS_OPTS},subvol=@home" "/dev/mapper/${CRYPT_ROOT}" "${ROOT_DIR}/home"
 mount --options "${BTRFS_OPTS},subvol=@snapshots" "/dev/mapper/${CRYPT_ROOT}" "${ROOT_DIR}/.snapshots"
@@ -102,6 +104,8 @@ mount "${DEV_ESP}" "${ROOT_DIR}/boot/efi"
 #			CHROOT			#
 #============================#
 
+pacman-key --init
+pacman -Sy archlinux-keyring
 
 pacstrap -i "${ROOT_DIR}" base nano btrfs-progs
 genfstab -U "${ROOT_DIR}" >> "${ROOT_DIR}/etc/fstab"
