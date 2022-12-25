@@ -34,7 +34,7 @@ sudo pacman --sync gstreamer gst-libav gst-plugins-base gst-plugin-pipewire gst-
 
 
 paru --sync trilium-bin freetube-bin ani-cli librewolf-bin
-paru --sync dwm-git dmenu-git st-git tabbed-git ly-git slock-git intel-hybrid-codec-driver
+paru --sync dwm dmenu st tabbed-git ly slock intel-hybrid-codec-driver
 
 sudo systemctl enable tlp
 sudo systemctl enable ly
