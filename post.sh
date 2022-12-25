@@ -15,7 +15,7 @@ sudo pacman --sync libx11 xorg-server libxrandr xorg-xrandr xorg-xinit libxft xo
 
 # checkout how to configure it
 sudo pacman --sync pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
-sudo pacman --sync ranger bat tlp htop clang gcc gdb python3 python-poetry zsh meson cmake
+sudo pacman --sync ranger bat tlp htop clang gcc gdb python3 python-poetry zsh lsd meson cmake
 sudo pacman --sync weechat keepassxc qbittorrent moc zathura feh dunst wireshark-qt nyxt mpv wireguard-tools texlive-most texlive-most
 
 
