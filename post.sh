@@ -15,7 +15,7 @@ sudo pacman --sync libx11 xorg-server libxrandr xorg-xrandr xorg-xinit libxft xo
 
 # checkout how to configure it
 sudo pacman --sync pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
-sudo pacman --sync ranger bat tlp htop clang gcc gdb python3 python-poetry zsh
+sudo pacman --sync ranger bat tlp htop clang gcc gdb python3 python-poetry zsh meson cmake
 sudo pacman --sync weechat keepassxc qbittorrent moc zathura feh dunst wireshark-qt nyxt mpv wireguard-tools texlive-most texlive-most
 
 
@@ -33,8 +33,11 @@ rm --force --recursive paru-bin
 sudo pacman --sync gstreamer gst-libav gst-plugins-base gst-plugin-pipewire gst-plugins-good
 
 
-paru --sync trilium-bin freetube-bin ani-cli librewolf-bin
+paru --sync trilium-bin freetube-bin ani-cli librewolf-bin picom-git
 paru --sync dwm dmenu st tabbed-git ly slock intel-hybrid-codec-driver
+
+mkdir -p ~/.config/picom
+cat /etc/xdg/picom.conf.example > ~/.config/picom/picom.conf
 
 sudo systemctl enable tlp
 sudo systemctl enable ly
